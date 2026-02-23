@@ -1,962 +1,746 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A. Syauli Nadima, S.Kom - Portofolio</title>
-
+    <title>A. Syauli Nadima, S.Kom – Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
-    
-    <!-- Vue.js CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #ffffff;
-            color: #1d1d1f;
-            overflow-x: hidden;
-        }
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #ffffff; color: #111; overflow-x: hidden; }
 
-        .text-gradient-custom {
-            @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
-        }
+        /* Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .animate-infinite-scroll {
-            animation: infinite-scroll 40s linear infinite;
-        }
+        /* Scroll animation */
+        .sa { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+        .sa.vis { opacity: 1; transform: translateY(0); }
 
-        /* Animated Background Blobs */
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.5;
-            animation: float 20s infinite ease-in-out alternate;
-            pointer-events: none;
+        /* Notion-style card */
+        .n-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            transition: border-color .2s, box-shadow .2s, transform .2s;
         }
-        .blob-1 {
-            top: -20%;
-            left: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
-        }
-        .blob-2 {
-            bottom: -20%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(147, 51, 234, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
-            animation-delay: -10s;
-        }
+        .n-card:hover { border-color: #d1d5db; box-shadow: 0 4px 16px rgba(0,0,0,.06); transform: translateY(-2px); }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 50px) scale(1.05); }
-            100% { transform: translate(-20px, 20px) scale(0.95); }
-        }
+        /* Tag pill */
+        .tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; }
 
-        /* Custom Animations for Mobile Bento */
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-        
-        /* Microinteractions */
-        .tap-scale {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .tap-scale:active {
-            transform: scale(0.96);
-        }
-        
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .scroll-animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Stagger delays */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
+        /* Divider label */
+        .section-label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #6b7280; }
 
-        /* Modern Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
+        /* Accordion hover row */
+        .acc-row { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1rem; border-bottom: 1px solid #e5e7eb; cursor: pointer; transition: background .2s; }
+        .acc-row:first-child { border-top: 1px solid #e5e7eb; }
+        .acc-row:hover { background: #f9fafb; }
+        .acc-row:hover .acc-arrow { background: #111; color: #fff; }
+        .acc-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s, color .2s, transform .2s; }
+        .acc-row:hover .acc-arrow i { transform: translateX(2px); }
+        .acc-arrow i { transition: transform .2s; }
 
-        /* Desktop specific 3D Tilt Effect Container */
-         .tilt-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        
-        /* Cursor Follower Glow Effect */
-        #cursor-glow {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(147, 51, 234, 0.05) 40%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 0;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
+        /* Gallery marquee */
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-inner { animation: marquee 30s linear infinite; }
 
+        /* Mobile bottom nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-top: 1px solid #e5e7eb; z-index: 50; }
+
+        /* Callout block (Notion-style) */
+        .callout { background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 16px; }
     </style>
 </head>
 
-<body class="bg-gray-50 relative pb-24 md:pb-0">
+<body class="bg-white text-gray-900">
+<div id="app">
 
-    <div id="app" class="relative overflow-hidden">
-        <!-- Background Blobs -->
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div id="cursor-glow" class="hidden md:block"></div>
+<!-- ═══════════════════════════════════════════
+     MOBILE LAYOUT
+═══════════════════════════════════════════ -->
+<div class="md:hidden pb-28">
 
-        <!-- Mobile Bento Layout -->
-        <div class="md:hidden min-h-screen p-4 space-y-6 pb-32 font-sans relative z-10">
-            <!-- Hero Card -->
-            <div class="glass-panel rounded-[2rem] p-6 flex flex-col items-center text-center relative overflow-hidden group scroll-animate">
-                <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-blue-50/50 to-purple-50/50 z-0"></div>
-                <!-- Animated Blobs -->
-                <div class="absolute top-[-20px] left-[-20px] w-24 h-24 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-                
-                <div class="relative z-10 mt-8">
-                    <div class="relative inline-block">
-                        <img src="images/fotosaya.png" class="w-32 h-32 object-cover rounded-full border-4 border-white shadow-md mx-auto bg-white transform group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute bottom-2 right-2 w-6 h-6 bg-green-500 border-4 border-white rounded-full animate-pulse"></div>
-                    </div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 mt-4">A. Syauli Nadima, S.Kom</h1>
-                    <p class="text-gray-500 font-medium mt-1 text-sm">Software Engineer, UI/UX Designer, <br class="lg:block max-md:hidden"> Digital Strategist, Problem Solver.</p>
-                    <div class="mt-4 flex flex-wrap justify-center gap-2">
-                        <span class="px-4 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-bold hover:bg-blue-100 transition-colors cursor-default hover:scale-105 transform duration-300">UI/UX Designer</span>
-                        <span class="px-4 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-bold hover:bg-purple-100 transition-colors cursor-default hover:scale-105 transform duration-300">Fullstack Dev</span>
-                    </div>
-                    <!-- Added Button to match Desktop -->
-                    <div class="mt-6">
-                        <a href="#experience-mobile" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-full text-sm shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all tap-scale inline-block">
-                            Lihat Pengalaman
-                        </a>
-                    </div>
-                </div>
+    <!-- ── Mobile Nav ── -->
+    <nav class="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+        <span class="font-bold text-sm tracking-tight">Nadima Ahmad</span>
+        <a href="mailto:ahmadsyaulinadima@gmail.com" class="text-xs font-semibold bg-gray-900 text-white px-4 py-1.5 rounded-full hover:bg-gray-700 transition-colors">Hire Me</a>
+    </nav>
+
+    <!-- ── Mobile Hero ── -->
+    <div class="px-4 pt-8 pb-6 sa">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="relative">
+                <img src="images/fotosaya.png" class="w-16 h-16 object-cover rounded-full border-2 border-gray-200">
+                <span class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></span>
             </div>
-
-            <!-- Stats Section Title -->
-            <div class="text-center px-4 scroll-animate">
-                 <h2 class="text-2xl font-bold tracking-tight text-gray-900">Sebuah kelas baru.</h2>
-                 <p class="text-gray-600 mt-2 text-sm leading-relaxed">UI/UX Designer & Engineer dengan <br> total 8 tahun pengalaman.</p>
-            </div>
-
-            <!-- Stats Grid (2x2) -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-blue-600 p-5 rounded-[2rem] text-white shadow-sm flex flex-col justify-between aspect-square relative overflow-hidden group hover:shadow-md transition-all duration-300 tap-scale scroll-animate delay-100">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 transform group-hover:scale-125 group-hover:rotate-12 transition-transform duration-500">
-                        <i class="bi bi-graph-up-arrow text-4xl"></i>
-                    </div>
-                    <span class="text-4xl font-bold tracking-tighter group-hover:scale-110 transition-transform origin-left">3+</span>
-                    <p class="text-xs font-medium opacity-90 leading-tight">Tahun Desain UI/UX</p>
-                </div>
-                <div class="bg-gray-900 p-5 rounded-[2rem] text-white shadow-sm flex flex-col justify-between aspect-square relative overflow-hidden group hover:shadow-md transition-all duration-300 tap-scale scroll-animate delay-200">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 transform group-hover:scale-125 group-hover:rotate-12 transition-transform duration-500">
-                        <i class="bi bi-graph-up-arrow text-4xl"></i>
-                    </div>
-                    <span class="text-4xl font-bold tracking-tighter group-hover:scale-110 transition-transform origin-left">5+</span>
-                    <p class="text-xs font-medium opacity-90 leading-tight">Tahun Development</p>
-                </div>
-                <div class="bg-purple-600 p-5 rounded-[2rem] text-white shadow-sm flex flex-col justify-between aspect-square relative overflow-hidden group hover:shadow-md transition-all duration-300 tap-scale scroll-animate delay-300">
-                    <div class="absolute top-0 right-0 p-4 opacity-20 transform group-hover:scale-125 group-hover:rotate-12 transition-transform duration-500">
-                        <i class="bi bi-graph-up-arrow text-4xl"></i>
-                    </div>
-                    <span class="text-4xl font-bold tracking-tighter group-hover:scale-110 transition-transform origin-left">820+</span>
-                    <p class="text-xs font-medium opacity-90 leading-tight">Anggota Komunitas</p>
-                </div>
-                <a href="mailto:ahmadsyaulinadima@gmail.com" class="bg-gray-900 p-5 rounded-[2rem] text-white shadow-sm flex flex-col justify-between aspect-square relative overflow-hidden group hover:bg-black transition-colors tap-scale scroll-animate delay-300">
-                     <div class="absolute top-0 right-0 p-4 opacity-20 transform group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform">
-                        <i class="bi bi-send-fill text-4xl"></i>
-                    </div>
-                     <i class="bi bi-envelope-fill text-3xl animate-bounce"></i>
-                     <span class="text-sm font-medium opacity-90">Hire Me</span>
-                </a>
-            </div>
-
-            <!-- Infinite Scroll Card -->
-            <div class="glass-panel rounded-[2rem] p-1 overflow-hidden scroll-animate mt-6">
-                <div class="flex items-center justify-between px-4 py-3">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Gallery</p>
-                    <i class="bi bi-arrow-right text-gray-300 animate-pulse"></i>
-                </div>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar snap-x pb-1 px-1">
-                     <img src="images/nadima01.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima02.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima03.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima04.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima05.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima06.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima07.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima08.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima09.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                     <img src="images/nadima10.png" class="h-40 w-auto rounded-xl snap-center object-cover active:scale-95 transition-transform duration-300">
-                </div>
-            </div>
-
-            <!-- Skills Section (Expanded) -->
-            <div class="space-y-4" id="skills-mobile">
-                <div class="text-center px-4 scroll-animate">
-                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Kekuatan Penuh.</h2>
-                </div>
-                <div class="space-y-3">
-                    <div class="glass-panel rounded-[2rem] p-6 tap-scale scroll-animate group hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i class="bi bi-palette-fill text-2xl text-blue-500"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Design & UX</h3>
-                        </div>
-                        <ul class="space-y-2">
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>UI/UX Design</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Design Thinking</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Journey Mapping</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>UX Research & Wireframing</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Figma & Adobe XD</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Adobe Creative Suite</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Blender 3D</span></li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel rounded-[2rem] p-6 tap-scale scroll-animate group hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i class="bi bi-code-slash text-2xl text-green-500"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Development</h3>
-                        </div>
-                        <ul class="space-y-2">
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Vue.js & Flutter</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>JavaScript, HTML & CSS</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Bootstrap 5 & Tailwind</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Laravel & PHP Native</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>MySQL, MariaDB, MongoDB</span></li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel rounded-[2rem] p-6 tap-scale scroll-animate group hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i class="bi bi-briefcase-fill text-2xl text-purple-500"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Tools & Business</h3>
-                        </div>
-                        <ul class="space-y-2">
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>CRM</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Kanban</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>KPI Design</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Brand Strategy</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Digital Marketing</span></li>
-                            <li class="flex items-start gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"><i class="bi bi-check-circle-fill text-green-500 text-xs mt-1"></i><span>Cross-functional Collaboration</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Experience Stack -->
-            <div class="space-y-3" id="experience-mobile">
-                <div class="flex items-center justify-between px-2 mt-4 scroll-animate">
-                    <h3 class="text-2xl font-bold text-gray-900">Pengalaman</h3>
-                </div>
-                 <div class="px-2 mb-4 scroll-animate">
-                    <p class="text-gray-600 text-sm">Dibangun untuk dampak nyata.</p>
-                </div>
-
-                <div class="bg-blue-50 border-blue-200 ring-2 ring-blue-100 rounded-[2rem] p-5 shadow-sm border flex flex-col gap-2 transition-all duration-300 tap-scale scroll-animate">
-                     <div class="flex justify-between items-start">
-                        <div class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full">Okt 2025 – Jan 2026 (Contract)</span>
-                     </div>
-                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 leading-tight">Bildung Mit Wirkung <br> (BMW e.V.)</h4>
-                        <p class="text-blue-600 text-sm mt-1 font-medium">Fullstack Developer (Remote), Jerman</p>
-                        <ul class="mt-3 space-y-1.5">
-                            <li class="text-sm text-gray-600 flex items-start gap-2">
-                                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span>
-                                <span class="leading-relaxed">Membangun dan mengembangkan website profil dan sistem fundraising internasional dengan integrasi pembayaran.</span>
-                            </li>
-                        </ul>
-                     </div>
-                </div>
-                <div class="bg-white border-gray-100 rounded-[2rem] p-5 shadow-sm border flex flex-col gap-2 transition-all duration-300 tap-scale scroll-animate">
-                     <div class="flex justify-between items-start">
-                        <div class="bg-gray-100 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <span class="bg-gray-50 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-full">Nov 2025 – Sekarang (Full-time)</span>
-                     </div>
-                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 leading-tight">PT Fajar Wisata Langgeng <br> (Sutan Raya)</h4>
-                        <p class="text-gray-500 text-sm mt-1 font-medium">Fullstack Developer, Indonesia</p>
-                        <ul class="mt-3 space-y-1.5">
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mengembangkan website company profile perusahaan.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Membangun sistem internal untuk pengelolaan data, pemesanan tiket, dan bank data perusahaan.</span></li>
-                        </ul>
-                     </div>
-                </div>
-                <div class="bg-white border-gray-100 rounded-[2rem] p-5 shadow-sm border flex flex-col gap-2 transition-all duration-300 tap-scale scroll-animate">
-                     <div class="flex justify-between items-start">
-                        <div class="bg-gray-100 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <span class="bg-gray-50 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-full">Jul 2025 – Okt 2025 (Contract)</span>
-                     </div>
-                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 leading-tight">UPI YPTK Padang</h4>
-                        <p class="text-gray-500 text-sm mt-1 font-medium">Frontend Developer (Remote), Indonesia</p>
-                        <ul class="mt-3 space-y-1.5">
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Merancang dan mengembangkan antarmuka aplikasi Lembaga Penjamin Mutu dan e-Office kampus.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Berkolaborasi dengan tim backend untuk integrasi API dan dashboard administrasi internal.</span></li>
-                        </ul>
-                     </div>
-                </div>
-                <div class="bg-white border-gray-100 rounded-[2rem] p-5 shadow-sm border flex flex-col gap-2 transition-all duration-300 tap-scale scroll-animate">
-                     <div class="flex justify-between items-start">
-                        <div class="bg-gray-100 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <span class="bg-gray-50 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-full">Jun 2023 – Des 2024 (Full Time)</span>
-                     </div>
-                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 leading-tight">PT Minang Teknologi Indonesia</h4>
-                        <p class="text-gray-500 text-sm mt-1 font-medium">Vice President of Product, Indonesia</p>
-                        <ul class="mt-3 space-y-1.5">
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Berperan sebagai Lead (PM) dalam desain dan riset UI/UX untuk proyek digital, termasuk super app 'Rumah Gadang UIN IB' dan aplikasi MVP katering.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mendesain ulang kurikulum bootcamp Co-mentor menjadi tiga fokus: Product (UI/UX), Front End (Flutter), dan Backend (Python & Go).</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Bertindak sebagai mentor di kelas product design bootcamp.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mengembangkan strategi produk dan konten media sosial.</span></li>
-                        </ul>
-                     </div>
-                </div>
-                <div class="bg-white border-gray-100 rounded-[2rem] p-5 shadow-sm border flex flex-col gap-2 transition-all duration-300 tap-scale scroll-animate">
-                     <div class="flex justify-between items-start">
-                        <div class="bg-gray-100 text-gray-500 w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <span class="bg-gray-50 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-full">Okt 2023 – Apr 2025 (Full Time)</span>
-                     </div>
-                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 leading-tight">Bolu MalinKundang</h4>
-                        <p class="text-gray-500 text-sm mt-1 font-medium">Product dev, Brand Strategist & Tech Development, Indonesia</p>
-                        <ul class="mt-3 space-y-1.5">
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mendesain dan mengembangkan sistem digital internal (POS, absensi geo-tagged, manajemen inventaris, pelacakan B2B).</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Melakukan riset UX (Design Thinking) untuk desain sistem dan kemasan.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mengimplementasikan Kanban, KPI, dan sistem onboarding.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Memimpin rebranding "Uda Lin" menjadi "Uni Lin".</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mengamankan kemitraan strategis dengan Transmart dan Suzuya.</span></li>
-                            <li class="text-sm text-gray-600 flex items-start gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0"></span><span class="leading-relaxed">Mengintegrasikan E-commerce dan mengelola CRM & iklan digital.</span></li>
-                        </ul>
-                     </div>
-                </div>
-            </div>
-
-            <!-- Other Experiences (Horizontal Scroll but full text) -->
-            <div class="glass-panel rounded-[2rem] p-5 scroll-animate">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Other Experience</h3>
-                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                    <div class="flex-shrink-0 w-72 glass-panel p-5 rounded-3xl tap-scale group hover:shadow-md transition-all">
-                        <h4 class="text-sm font-bold mb-1 text-gray-900">PT Koding Pro Indonesia</h4>
-                        <p class="text-xs text-blue-600 mb-2 font-medium">COO - Full Time (Okt 2022 – Mei 2023)</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">Menyelesaikan 21 kelas pemrograman (81% dari total) dan membangun frontend modular (PHP, JS).</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 glass-panel p-5 rounded-3xl tap-scale group hover:shadow-md transition-all">
-                        <h4 class="text-sm font-bold mb-1 text-gray-900">Nadima System</h4>
-                        <p class="text-xs text-blue-600 mb-2 font-medium">Freelance (Jan 2020 – Sekarang)</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">Mengelola proyek end-to-end (riset, UI/UX, dev) untuk beragam klien.</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 glass-panel p-5 rounded-3xl tap-scale group hover:shadow-md transition-all">
-                        <h4 class="text-sm font-bold mb-1 text-gray-900">CV Sobat Karya Persada</h4>
-                        <p class="text-xs text-blue-600 mb-2 font-medium">Digital Marketing Director - Contract (Okt 2021 – Okt 2022)</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">Membuat desain sosmed, foto produk, dan video promosi.</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 glass-panel p-5 rounded-3xl tap-scale group hover:shadow-md transition-all">
-                        <h4 class="text-sm font-bold mb-1 text-gray-900">PT. Semen Padang (Classy Corp)</h4>
-                        <p class="text-xs text-blue-600 mb-2 font-medium">2D Animator & Designer - Contract (Jun 2023 – Jan 2024)</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">Memproduksi video animasi 2D edukasi mitigasi bencana (proyek BNPB).</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 glass-panel p-5 rounded-3xl tap-scale group hover:shadow-md transition-all">
-                        <h4 class="text-sm font-bold mb-1 text-gray-900">Furgetech Startup</h4>
-                        <p class="text-xs text-blue-600 mb-2 font-medium">Junior UI/UX Designer - Full Time (Des 2017 – Agu 2018)</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">Mendesain MVP aplikasi e-Qurban (Adobe XD) dan melakukan riset UX awal.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Education & Awards Card -->
-            <div class="glass-panel rounded-[2rem] p-5 scroll-animate mt-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Education</h3>
-                <div class="flex items-start gap-4 mb-4">
-                    <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                        <i class="bi bi-mortarboard-fill text-xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-bold">Sarjana Komputer (S.Kom)</h4>
-                        <p class="text-sm text-gray-600">Teknik Informatika</p>
-                        <p class="text-xs text-gray-400 mt-1">Universitas Putra Indonesia YPTK Padang (2016 – 2022)</p>
-                    </div>
-                </div>
-                <div class="bg-yellow-50 p-4 rounded-2xl flex items-start gap-3 tap-scale">
-                    <i class="bi bi-trophy-fill text-yellow-500 mt-0.5 animate-bounce"></i>
-                    <div>
-                        <p class="text-xs font-bold text-yellow-800">Award</p>
-                        <p class="text-xs text-yellow-700">Runner-Up - Hackathon, Politeknik Negeri Padang (2019)</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Certifications Scroll -->
-            <div class="glass-panel rounded-[2rem] p-5 scroll-animate mt-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Certifications</h3>
-                <div class="space-y-3">
-                    <div class="flex items-start gap-3 text-sm tap-scale p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="bi bi-patch-check-fill text-blue-500 mt-1 flex-shrink-0"></i>
-                        <span class="text-gray-600"><b>UI/UX Design</b> – Talent Hub, Kementerian Ketenagakerjaan RI (2021)</span>
-                    </div>
-                    <div class="flex items-start gap-3 text-sm tap-scale p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="bi bi-patch-check-fill text-blue-500 mt-1 flex-shrink-0"></i>
-                        <span class="text-gray-600"><b>Programming with Dart</b> – Dicoding Indonesia (2023)</span>
-                    </div>
-                    <div class="flex items-start gap-3 text-sm tap-scale p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="bi bi-patch-check-fill text-blue-500 mt-1 flex-shrink-0"></i>
-                        <span class="text-gray-600"><b>Speaker: Artificial Intelligence</b> – Universitas Andalas (2023)</span>
-                    </div>
-                    <div class="flex items-start gap-3 text-sm tap-scale p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="bi bi-patch-check-fill text-blue-500 mt-1 flex-shrink-0"></i>
-                        <span class="text-gray-600"><b>Speaker: Flutter Front-End Workshop</b> – Universitas Andalas (2024)</span>
-                    </div>
-                    <div class="flex items-start gap-3 text-sm tap-scale p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="bi bi-patch-check-fill text-blue-500 mt-1 flex-shrink-0"></i>
-                        <span class="text-gray-600"><b>Speaker: Seminar Entrepreneurship</b> – Politeknik Aisyiyah Sumbar (2025)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Community Card -->
-            <div class="glass-panel rounded-[2rem] p-5 scroll-animate mt-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Community</h3>
-                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                    <div class="flex-shrink-0 w-72 bg-gray-50 p-5 rounded-3xl border border-gray-100 tap-scale">
-                        <h4 class="text-sm font-bold mb-1">Founder</h4>
-                        <p class="text-xs text-gray-600 mb-2">Forum Studi Informatika UPI YPTK (2019)</p>
-                        <p class="text-xs text-gray-500 leading-relaxed">Mendirikan komunitas belajar teknologi dengan 800+ anggota, mengorganisir kelas coding dan workshop rutin.</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 bg-gray-50 p-5 rounded-3xl border border-gray-100 tap-scale">
-                        <h4 class="text-sm font-bold mb-1">Humas Wilayah Sumbar</h4>
-                        <p class="text-xs text-gray-600 mb-2">Masyarakat Relawan Indonesia (MRI) (2018)</p>
-                        <p class="text-xs text-gray-500 leading-relaxed">Mengelola komunikasi eksternal dan mengkoordinasikan kolaborasi kemanusiaan di tingkat provinsi.</p>
-                    </div>
-                    <div class="flex-shrink-0 w-72 bg-gray-50 p-5 rounded-3xl border border-gray-100 tap-scale">
-                        <h4 class="text-sm font-bold mb-1">Koordinator Wilayah 2</h4>
-                        <p class="text-xs text-gray-600 mb-2">Permikomnas (2017-2019)</p>
-                        <p class="text-xs text-gray-500 leading-relaxed">Mewakili 5 provinsi (Sumbar, Riau, Kepri, Jambi, Bengkulu) dalam koordinasi kegiatan mahasiswa informatika nasional.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Socials Grid -->
-            <div class="grid grid-cols-4 gap-3 scroll-animate mt-6">
-                <a href="mailto:ahmadsyaulinadima@gmail.com" class="glass-panel rounded-3xl p-4 flex items-center justify-center aspect-square text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-all hover:scale-105 tap-scale group">
-                    <i class="bi bi-envelope-fill text-2xl group-hover:scale-110 transition-transform"></i>
-                </a>
-                <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="glass-panel rounded-3xl p-4 flex items-center justify-center aspect-square text-gray-600 hover:text-blue-700 hover:bg-blue-50/50 transition-all hover:scale-105 tap-scale group">
-                    <i class="bi bi-linkedin text-2xl group-hover:scale-110 transition-transform"></i>
-                </a>
-                <a href="https://nadima-ahmad.my.id/" target="_blank" class="glass-panel rounded-3xl p-4 flex items-center justify-center aspect-square text-gray-600 hover:text-purple-600 hover:bg-purple-50/50 transition-all hover:scale-105 tap-scale group">
-                    <i class="bi bi-globe text-2xl group-hover:scale-110 transition-transform"></i>
-                </a>
-                <a href="https://wa.me/6282282425862" target="_blank" class="glass-panel rounded-3xl p-4 flex items-center justify-center aspect-square text-gray-600 hover:text-green-600 hover:bg-green-50/50 transition-all hover:scale-105 tap-scale group">
-                    <i class="bi bi-whatsapp text-2xl group-hover:scale-110 transition-transform"></i>
-                </a>
-            </div>
-
-             <!-- Mobile CTA -->
-            <div class="bg-blue-600 rounded-[2rem] p-8 text-center text-white shadow-lg scroll-animate">
-                <h2 class="text-2xl font-bold mb-4">Siap untuk berkolaborasi?</h2>
-                <p class="text-blue-100 mb-6 text-sm">Mari bangun sesuatu yang luar biasa bersama.</p>
-                <a href="mailto:ahmadsyaulinadima@gmail.com" class="inline-block bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-sm hover:bg-blue-50 transition-colors tap-scale">
-                    Mulai Percakapan
-                </a>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">A. Syauli Nadima</h1>
+                <p class="text-sm text-gray-500 mt-0.5">Software Engineer · UI/UX Designer</p>
             </div>
         </div>
-
-        <div class="hidden md:block relative z-10">
-        <section class="min-h-screen w-full flex items-center justify-center text-center px-6">
-            <div class="max-w-5xl mx-auto space-y-8 scroll-animate">
-                <p class="text-[20px] hover:scale-[1.1] transition-ease-in-out duration-300 animate-bounce text-blue-600 font-semibold tracking-wider">Hi, I'm {{ hero.name }}</p>
-                <h1 class="text-4xl md:text-9xl font-extrabold tracking-tighter hover:scale-[1.02] transition-transform duration-500 text-gradient-custom">
-                   Nadima Ahmad
-                </h1>
-
-                <h2 class="text-xl md:text-5xl font-medium text-gray-600 tracking-tight hover:text-blue-600 ransition-ease-in-out duration-300">
-                    <span>Software Engineer, UI/UX Designer, <br class="lg:block max-md:hidden"> Digital Strategist, Problem Solver.</span>
-                </h2>
-                <div class="pt-8">
-                    <a href="#experience"
-                        class="bg-blue-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:bg-blue-800 hover:scale-105">
-                        Lihat Pengalaman
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Scroll Section with Floating Image -->
-        <section class="w-full relative py-[10%] overflow-hidden">
-            <!-- Floating Center Image -->
-            <div class="">
-                <img src="images/fotosaya.png" alt="Foto Saya" class="drop-shadow-2xl absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-            </div>
-
-            <!-- Gradient Overlays -->
-            <div class="absolute top-0 left-0 h-full w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div>
-            <div class="absolute top-0 right-0 h-full w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none"></div>
-
-            <!-- Infinite Scroll Container (JS Driven) -->
-            <div ref="scrollContainer" class="flex gap-8 overflow-x-hidden w-full items-center whitespace-nowrap">
-                <!-- Render images multiple times to ensure smooth looping -->
-                <div class="flex-shrink-0"><img src="images/nadima01.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima02.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima03.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima04.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima05.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima06.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima07.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima08.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima09.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima10.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <!-- Duplicate 1 -->
-                <div class="flex-shrink-0"><img src="images/nadima01.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima02.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima03.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima04.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima05.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima06.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima07.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima08.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima09.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima10.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <!-- Duplicate 2 -->
-                <div class="flex-shrink-0"><img src="images/nadima01.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima02.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima03.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima04.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima05.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima06.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima07.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima08.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima09.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima10.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <!-- Duplicate 3 -->
-                <div class="flex-shrink-0"><img src="images/nadima01.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima02.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima03.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima04.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima05.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima06.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima07.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima08.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima09.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-                <div class="flex-shrink-0"><img src="images/nadima10.png" class="h-[350px] w-auto rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"></div>
-            </div>
-        </section>
-
-        <!-- Sebuah Kelas Baru Section -->
-        <section class="w-full flex flex-col items-center justify-center text-center py-16 md:py-32 mt-[5rem] relative bg-cover bg-center overflow-hidden" style="background-image: url('images/bg-kelasbaru.png')">
-            <div class="absolute inset-0 bg-white/40 backdrop-blur-sm z-0"></div>
-            
-            <div class="max-w-6xl mx-auto space-y-10 px-6 relative z-10 mb-12 scroll-animate">
-                <h2 class="text-3xl md:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600">
-                    Sebuah kelas baru.
-                </h2>
-                <p class="text-xl md:text-6xl font-medium text-gray-700 leading-tight tracking-tight">
-                    UI/UX Designer & Engineer dengan <br> total 8 tahun pengalaman.
-                </p>
-            </div>
-
-            <div class="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-3 gap-8 pt-12 text-left px-6 relative z-10 max-md:overflow-x-auto max-md:flex-row max-md:snap-x max-md:snap-mandatory max-md:no-scrollbar max-md:pb-8">
-                <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-xl transform hover:-translate-y-2 transition-transform duration-300 max-md:min-w-[80vw] max-md:snap-center">
-                    <span class="text-5xl font-bold">3+</span>
-                    <p class="text-2xl font-semibold mt-2">Tahun Desain UI/UX</p>
-                    <p class="text-blue-100 mt-2">Termasuk peran kepemimpinan sebagai VP of Product dan mentor UI/UX.</p>
-                </div>
-                <div class="bg-gray-900 p-8 rounded-3xl text-white shadow-xl transform hover:-translate-y-2 transition-transform duration-300 max-md:min-w-[80vw] max-md:snap-center">
-                    <span class="text-5xl font-bold">5+</span>
-                    <p class="text-2xl font-semibold mt-2">Tahun Development</p>
-                    <p class="text-gray-400 mt-2">Aktif terlibat dalam pengembangan fullstack sejak akhir 2019.</p>
-                </div>
-                <div class="bg-purple-600 p-8 rounded-3xl text-white shadow-xl transform hover:-translate-y-2 transition-transform duration-300 max-md:min-w-[80vw] max-md:snap-center">
-                    <span class="text-5xl font-bold">820+</span>
-                    <p class="text-2xl font-semibold mt-2">Anggota Komunitas</p>
-                    <p class="text-purple-200 mt-2">Mendirikan komunitas IT "Forum Studi Informatika UPI YPTK" sejak 2019.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="w-full px-6 py-16 md:py-32 relative" id="skills">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl md:text-7xl font-extrabold tracking-tighter text-center mb-20 scroll-animate text-gradient-custom">
-                    Kekuatan Penuh.
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-md:flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:no-scrollbar max-md:pb-8">
-                    <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                            <div class="w-20 h-20 rounded-2xl bg-gray-50/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                                <i class="bi bi-palette-fill text-5xl text-blue-500"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold mt-4 mb-3 text-gray-900">Design & UX</h3>
-                            <ul class="space-y-3 text-lg text-gray-600">
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>UI/UX Design</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Design Thinking</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Journey Mapping</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>UX Research & Wireframing</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Figma & Adobe XD</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Adobe Creative Suite</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Blender 3D</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                            <div class="w-20 h-20 rounded-2xl bg-gray-50/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                                <i class="bi bi-code-slash text-5xl text-green-500"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold mt-4 mb-3 text-gray-900">Development</h3>
-                            <ul class="space-y-3 text-lg text-gray-600">
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Vue.js & Flutter</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>JavaScript, HTML & CSS</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Bootstrap 5 & Tailwind</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Laravel & PHP Native</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>MySQL, MariaDB, MongoDB</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                            <div class="w-20 h-20 rounded-2xl bg-gray-50/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                                <i class="bi bi-briefcase-fill text-5xl text-purple-500"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold mt-4 mb-3 text-gray-900">Tools & Business</h3>
-                            <ul class="space-y-3 text-lg text-gray-600">
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>CRM</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Kanban</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>KPI Design</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Brand Strategy</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Digital Marketing</li>
-                                <li class="flex items-center gap-3"><i class="bi bi-check-circle-fill text-green-400 text-sm"></i>Cross-functional Collaboration</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="w-full mx-auto px-6 md:px-20 py-16 md:py-32 relative">
-            <div class="max-w-5xl mx-auto text-center scroll-animate">
-                <h2 class="text-3xl md:text-8xl font-extrabold tracking-tighter mb-8 text-gradient-custom">
-                    Pengalaman <br>Profesional
-                </h2>
-                <p class="text-xl md:text-5xl font-medium text-gray-600">
-                    Dibangun untuk dampak nyata.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 mt-[5rem] md:grid-cols-3 gap-12 text-left max-md:flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:no-scrollbar max-md:pb-8">
-                <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group scroll-animate transition-all delay-[0ms]">
-                    <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                        <p class="text-sm font-bold text-blue-600 mb-4 bg-blue-50/50 inline-block px-4 py-2 rounded-full">Okt 2025 – Jan 2026 (Contract)</p>
-                        <h3 class="text-3xl font-extrabold tracking-tight mb-3 leading-tight text-gray-900">Bildung Mit Wirkung <br> (BMW e.V.)</h3>
-                        <p class="text-lg text-gray-600 mb-6 font-medium">Fullstack Developer (Remote), Jerman</p>
-                        <ul class="text-sm text-gray-500 space-y-3">
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Membangun dan mengembangkan website profil dan sistem fundraising internasional dengan integrasi pembayaran.</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group scroll-animate transition-all delay-[100ms]">
-                    <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                        <p class="text-sm font-bold text-blue-600 mb-4 bg-blue-50/50 inline-block px-4 py-2 rounded-full">Nov 2025 – Sekarang (Full-time)</p>
-                        <h3 class="text-3xl font-extrabold tracking-tight mb-3 leading-tight text-gray-900">PT Fajar Wisata Langgeng <br> (Sutan Raya)</h3>
-                        <p class="text-lg text-gray-600 mb-6 font-medium">Fullstack Developer, Indonesia</p>
-                        <ul class="text-sm text-gray-500 space-y-3">
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mengembangkan website company profile perusahaan.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Membangun sistem internal untuk pengelolaan data, pemesanan tiket, dan bank data perusahaan.</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group scroll-animate transition-all delay-[200ms]">
-                    <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                        <p class="text-sm font-bold text-blue-600 mb-4 bg-blue-50/50 inline-block px-4 py-2 rounded-full">Jul 2025 – Okt 2025 (Contract)</p>
-                        <h3 class="text-3xl font-extrabold tracking-tight mb-3 leading-tight text-gray-900">UPI YPTK Padang</h3>
-                        <p class="text-lg text-gray-600 mb-6 font-medium">Frontend Developer (Remote), Indonesia</p>
-                        <ul class="text-sm text-gray-500 space-y-3">
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Merancang dan mengembangkan antarmuka aplikasi Lembaga Penjamin Mutu dan e-Office kampus.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Berkolaborasi dengan tim backend untuk integrasi API dan dashboard administrasi internal.</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group scroll-animate transition-all delay-[300ms]">
-                    <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                        <p class="text-sm font-bold text-blue-600 mb-4 bg-blue-50/50 inline-block px-4 py-2 rounded-full">Jun 2023 – Des 2024 (Full Time)</p>
-                        <h3 class="text-3xl font-extrabold tracking-tight mb-3 leading-tight text-gray-900">PT Minang Teknologi Indonesia</h3>
-                        <p class="text-lg text-gray-600 mb-6 font-medium">Vice President of Product, Indonesia</p>
-                        <ul class="text-sm text-gray-500 space-y-3">
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Berperan sebagai Lead (PM) dalam desain dan riset UI/UX untuk proyek digital, termasuk super app 'Rumah Gadang UIN IB' dan aplikasi MVP katering.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mendesain ulang kurikulum bootcamp Co-mentor menjadi tiga fokus: Product (UI/UX), Front End (Flutter), dan Backend (Python & Go).</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Bertindak sebagai mentor di kelas product design bootcamp.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mengembangkan strategi produk dan konten media sosial.</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="max-md:min-w-[80vw] max-md:snap-center tilt-card group scroll-animate transition-all delay-[400ms]">
-                    <div class="glass-panel p-8 rounded-[2.5rem] h-full transition-transform duration-300 ease-out transform-gpu group-hover:shadow-2xl">
-                        <p class="text-sm font-bold text-blue-600 mb-4 bg-blue-50/50 inline-block px-4 py-2 rounded-full">Okt 2023 – Apr 2025 (Full Time)</p>
-                        <h3 class="text-3xl font-extrabold tracking-tight mb-3 leading-tight text-gray-900">Bolu MalinKundang</h3>
-                        <p class="text-lg text-gray-600 mb-6 font-medium">Product dev, Brand Strategist & Tech Development, Indonesia</p>
-                        <ul class="text-sm text-gray-500 space-y-3">
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mendesain dan mengembangkan sistem digital internal (POS, absensi geo-tagged, manajemen inventaris, pelacakan B2B).</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Melakukan riset UX (Design Thinking) untuk desain sistem dan kemasan.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mengimplementasikan Kanban, KPI, dan sistem onboarding.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Memimpin rebranding "Uda Lin" menjadi "Uni Lin".</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mengamankan kemitraan strategis dengan Transmart dan Suzuya.</span></li>
-                            <li class="flex items-start gap-3"><span class="mt-2 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span>Mengintegrasikan E-commerce dan mengelola CRM & iklan digital.</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="max-w-6xl mx-auto pt-24 scroll-animate">
-                <h3 class="text-4xl font-extrabold tracking-tight mb-12 text-center text-gray-900">Pengalaman Profesional Lainnya</h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-md:flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:no-scrollbar max-md:pb-8">
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-shadow duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">PT Koding Pro Indonesia</h4>
-                            <p class="text-lg text-blue-600 mb-3 font-medium">COO - Full Time (Okt 2022 – Mei 2023)</p>
-                            <p class="text-gray-600 leading-relaxed">Menyelesaikan 21 kelas pemrograman (81% dari total) dan membangun frontend modular (PHP, JS).</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-shadow duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">Nadima System</h4>
-                            <p class="text-lg text-blue-600 mb-3 font-medium">Freelance (Jan 2020 – Sekarang)</p>
-                            <p class="text-gray-600 leading-relaxed">Mengelola proyek end-to-end (riset, UI/UX, dev) untuk beragam klien.</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-shadow duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">CV Sobat Karya Persada</h4>
-                            <p class="text-lg text-blue-600 mb-3 font-medium">Digital Marketing Director - Contract (Okt 2021 – Okt 2022)</p>
-                            <p class="text-gray-600 leading-relaxed">Membuat desain sosmed, foto produk, dan video promosi.</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-shadow duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">PT. Semen Padang (Classy Corp)</h4>
-                            <p class="text-lg text-blue-600 mb-3 font-medium">2D Animator & Designer - Contract (Jun 2023 – Jan 2024)</p>
-                            <p class="text-gray-600 leading-relaxed">Memproduksi video animasi 2D edukasi mitigasi bencana (proyek BNPB).</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-shadow duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">Furgetech Startup</h4>
-                            <p class="text-lg text-blue-600 mb-3 font-medium">Junior UI/UX Designer - Full Time (Des 2017 – Agu 2018)</p>
-                            <p class="text-gray-600 leading-relaxed">Mendesain MVP aplikasi e-Qurban (Adobe XD) dan melakukan riset UX awal.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section class="w-full px-6 py-16 md:py-32 relative">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 scroll-animate">
-                <div class="glass-panel p-10 rounded-[2.5rem] hover:shadow-2xl transition-all duration-300">
-                    <h3 class="text-4xl font-extrabold tracking-tight mb-10 text-gray-900">Edukasi & Penghargaan</h3>
-                    <div class="mb-10 flex gap-6">
-                        <div class="w-16 h-16 rounded-3xl bg-blue-50/50 flex items-center justify-center flex-shrink-0 mt-1">
-                             <i class="bi bi-mortarboard-fill text-3xl text-blue-600"></i>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold text-gray-900">Sarjana Komputer (S.Kom)</p>
-                            <p class="text-xl text-blue-600 mb-2 font-medium">Teknik Informatika</p>
-                            <p class="text-lg text-gray-500">Universitas Putra Indonesia YPTK Padang (2016 – 2022)</p>
-                        </div>
-                    </div>
-                    <div class="bg-yellow-50/50 p-6 rounded-3xl border border-yellow-100 flex gap-4 items-center">
-                        <i class="bi bi-trophy-fill text-yellow-500 text-3xl animate-bounce"></i>
-                        <div>
-                            <h4 class="text-xl font-bold mb-1 text-yellow-800">Penghargaan</h4>
-                            <p class="text-lg text-yellow-700">Runner-Up - Hackathon, Politeknik Negeri Padang (2019)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel p-10 rounded-[2.5rem] hover:shadow-2xl transition-all duration-300">
-                    <h3 class="text-4xl font-extrabold tracking-tight mb-10 text-gray-900">Sertifikasi & Pelatihan</h3>
-                    <ul class="space-y-6 text-lg">
-                        <li class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50/50 transition-colors">
-                            <i class="bi bi-patch-check-fill text-blue-500 text-2xl mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700 leading-relaxed"><b>UI/UX Design</b> – Talent Hub, Kementerian Ketenagakerjaan RI (2021)</span>
-                        </li>
-                        <li class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50/50 transition-colors">
-                            <i class="bi bi-patch-check-fill text-blue-500 text-2xl mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700 leading-relaxed"><b>Programming with Dart</b> – Dicoding Indonesia (2023)</span>
-                        </li>
-                        <li class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50/50 transition-colors">
-                            <i class="bi bi-patch-check-fill text-blue-500 text-2xl mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700 leading-relaxed"><b>Speaker: Artificial Intelligence</b> – Universitas Andalas (2023)</span>
-                        </li>
-                        <li class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50/50 transition-colors">
-                            <i class="bi bi-patch-check-fill text-blue-500 text-2xl mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700 leading-relaxed"><b>Speaker: Flutter Front-End Workshop</b> – Universitas Andalas (2024)</span>
-                        </li>
-                        <li class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50/50 transition-colors">
-                            <i class="bi bi-patch-check-fill text-blue-500 text-2xl mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700 leading-relaxed"><b>Speaker: Seminar Entrepreneurship</b> – Politeknik Aisyiyah Sumbar (2025)</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="w-full px-6 py-16 md:py-32 relative">
-            <div class="max-w-6xl mx-auto scroll-animate">
-                <h2 class="text-3xl md:text-7xl font-extrabold tracking-tighter text-center mb-20 text-gradient-custom">
-                    Kepemimpinan Komunitas.
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-md:flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:no-scrollbar max-md:pb-8">
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-all duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">Founder</h4>
-                            <p class="text-lg text-blue-600 mb-4 font-medium">Forum Studi Informatika UPI YPTK (2019)</p>
-                            <p class="text-gray-600 leading-relaxed">Mendirikan komunitas belajar teknologi dengan 800+ anggota, mengorganisir kelas coding dan workshop rutin.</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-all duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">Humas Wilayah Sumbar</h4>
-                            <p class="text-lg text-blue-600 mb-4 font-medium">Masyarakat Relawan Indonesia (MRI) (2018)</p>
-                            <p class="text-gray-600 leading-relaxed">Mengelola komunikasi eksternal dan mengkoordinasikan kolaborasi kemanusiaan di tingkat provinsi.</p>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-8 rounded-[2rem] hover:shadow-xl transition-all duration-300 max-md:min-w-[80vw] max-md:snap-center tilt-card group">
-                        <div class="transition-transform duration-300 ease-out transform-gpu">
-                            <h4 class="text-2xl font-bold mb-2 text-gray-900">Koordinator Wilayah 2</h4>
-                            <p class="text-lg text-blue-600 mb-4 font-medium">Permikomnas (2017-2019)</p>
-                            <p class="text-gray-600 leading-relaxed">Mewakili 5 provinsi (Sumbar, Riau, Kepri, Jambi, Bengkulu) dalam koordinasi kegiatan mahasiswa informatika nasional.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="min-h-[80vh] w-full flex items-center justify-center text-center px-6 py-16 md:py-32 relative">
-            <div class="max-w-4xl mx-auto space-y-8 scroll-animate glass-panel p-16 rounded-[3rem]">
-                <h2 class="text-3xl md:text-8xl font-extrabold tracking-tighter text-gradient-custom">
-                    Siap untuk berkolaborasi?
-                </h2>
-                <p class="text-2xl md:text-3xl font-medium text-gray-600 max-w-2xl mx-auto">
-                    Mari bangun sesuatu yang luar biasa bersama.
-                </p>
-                <div class="pt-8 space-y-6">
-                    <a href="mailto:ahmadsyaulinadima@gmail.com"
-                        class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 hover:bg-blue-700 hover:scale-105 inline-block">
-                        Mulai Percakapan
-                    </a>
-                    <p class="text-lg text-gray-500">
-                        Atau hubungi di <a href="https://wa.me/6282282425862" target="_blank" class="text-gray-800 underline">+62 822 8242 5862</a>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <footer class="w-full text-center px-6 py-16 border-t border-gray-100 mb-20 md:mb-0">
-            <div class="max-w-6xl mx-auto text-gray-500">
-                <p class="mb-4">
-                    A. Syauli Nadima, S.Kom
-                </p>
-                <p class="mb-4">
-                    Padang, Sumatera Barat, Indonesia
-                </p>
-                <div class="flex justify-center gap-6 text-2xl text-gray-400">
-                    <a href="mailto:ahmadsyaulinadima@gmail.com" class="hover:text-black transition-colors" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
-                    <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="hover:text-black transition-colors" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://nadima-ahmad.my.id/" target="_blank" class="hover:text-black transition-colors" aria-label="Website"><i class="bi bi-globe"></i></a>
-                </div>
-            </div>
-        </footer>
+        <p class="text-base text-gray-600 leading-relaxed mb-6">
+            8+ tahun berkarya di persimpangan desain dan teknologi — membangun produk digital yang berdampak.
+        </p>
+        <div class="flex gap-3 flex-wrap">
+            <a href="mailto:ahmadsyaulinadima@gmail.com" class="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-gray-700 transition-colors">
+                Mulai Percakapan <i class="bi bi-arrow-right text-xs"></i>
+            </a>
+            <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="inline-flex items-center gap-2 border border-gray-300 text-gray-700 text-sm font-semibold px-5 py-2.5 rounded-full hover:border-gray-500 transition-colors">
+                LinkedIn <i class="bi bi-box-arrow-up-right text-xs"></i>
+            </a>
         </div>
+    </div>
 
-        <!-- Bottom Navbar (Mobile Only) -->
-        <div class="fixed bottom-0 left-0 w-full glass-panel border-t border-white/20 p-4 md:hidden z-50 rounded-t-[2rem] pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] text-gray-600">
-            <div class="flex justify-around items-center">
-                <a href="#" class="flex flex-col items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <i class="bi bi-house-door-fill text-2xl"></i>
-                    <span class="text-xs mt-1">Home</span>
-                </a>
-                 <a href="#skills-mobile" class="flex flex-col items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <i class="bi bi-tools text-2xl"></i>
-                    <span class="text-xs mt-1">Skills</span>
-                </a>
-                <a href="#experience-mobile" class="flex flex-col items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <i class="bi bi-briefcase-fill text-2xl"></i>
-                    <span class="text-xs mt-1">Exp</span>
-                </a>
-               
-                <a href="mailto:ahmadsyaulinadima@gmail.com" class="flex flex-col items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <i class="bi bi-chat-dots-fill text-2xl"></i>
-                    <span class="text-xs mt-1">Contact</span>
-                </a>
+    <!-- ── Mobile Stats ── -->
+    <div class="px-4 mb-6 sa">
+        <div class="n-card p-5 grid grid-cols-3 divide-x divide-gray-100">
+            <div class="text-center px-3">
+                <p class="text-2xl font-bold">8+</p>
+                <p class="text-xs text-gray-500 mt-1">Tahun</p>
+            </div>
+            <div class="text-center px-3">
+                <p class="text-2xl font-bold">3+</p>
+                <p class="text-xs text-gray-500 mt-1">Desain UX</p>
+            </div>
+            <div class="text-center px-3">
+                <p class="text-2xl font-bold">820+</p>
+                <p class="text-xs text-gray-500 mt-1">Komunitas</p>
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
-    </script>
+    <!-- ── Mobile Portfolio Categories (PRESERVED) ── -->
+    <div class="px-4 mb-6 sa">
+        <p class="section-label mb-4">Portofolio Saya</p>
+        <h2 class="text-3xl font-black tracking-tighter text-black leading-tight uppercase mb-6">
+            Karya yang saya <span class="inline-block bg-[#faffb0] px-2" style="border:1.5px solid #000">buat.</span>
+        </h2>
+        <div>
+            <a href="#" class="acc-row group">
+                <div class="flex items-center gap-4"><span class="text-xs font-black text-gray-400 w-5">01</span><span class="text-xl font-black tracking-tight uppercase">Web &amp; App</span></div>
+                <div class="acc-arrow"><i class="bi bi-arrow-right text-sm"></i></div>
+            </a>
+            <a href="#" class="acc-row group">
+                <div class="flex items-center gap-4"><span class="text-xs font-black text-gray-400 w-5">02</span><span class="text-xl font-black tracking-tight uppercase">UI/UX Design</span></div>
+                <div class="acc-arrow"><i class="bi bi-arrow-right text-sm"></i></div>
+            </a>
+            <a href="#" class="acc-row group">
+                <div class="flex items-center gap-4"><span class="text-xs font-black text-gray-400 w-5">03</span><span class="text-xl font-black tracking-tight uppercase">Graphic Design</span></div>
+                <div class="acc-arrow"><i class="bi bi-arrow-right text-sm"></i></div>
+            </a>
+            <a href="#" class="acc-row group">
+                <div class="flex items-center gap-4"><span class="text-xs font-black text-gray-400 w-5">04</span><span class="text-xl font-black tracking-tight uppercase">Video Editing</span></div>
+                <div class="acc-arrow"><i class="bi bi-arrow-right text-sm"></i></div>
+            </a>
+        </div>
+    </div>
 
+    <!-- ── Mobile Gallery ── -->
+    <div class="mb-6 overflow-hidden sa">
+        <div class="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-2">
+            <img src="images/nadima01.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+            <img src="images/nadima02.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+            <img src="images/nadima03.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+            <img src="images/nadima04.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+            <img src="images/nadima05.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+            <img src="images/nadima06.png" class="h-36 w-auto rounded-lg border border-gray-100 flex-shrink-0 object-cover">
+        </div>
+    </div>
+
+    <!-- ── Mobile Skills ── -->
+    <div class="px-4 mb-6 sa" id="skills-mobile">
+        <p class="section-label mb-4">Skills</p>
+        <div class="space-y-3">
+            <div class="n-card p-5">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-palette-fill text-gray-700 text-sm"></i></div>
+                    <h3 class="font-semibold text-sm">Design &amp; UX</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="tag text-gray-600 border-gray-300">UI/UX Design</span>
+                    <span class="tag text-gray-600 border-gray-300">Design Thinking</span>
+                    <span class="tag text-gray-600 border-gray-300">UX Research</span>
+                    <span class="tag text-gray-600 border-gray-300">Figma</span>
+                    <span class="tag text-gray-600 border-gray-300">Adobe XD</span>
+                    <span class="tag text-gray-600 border-gray-300">Blender 3D</span>
+                </div>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-code-slash text-gray-700 text-sm"></i></div>
+                    <h3 class="font-semibold text-sm">Development</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="tag text-gray-600 border-gray-300">Vue.js</span>
+                    <span class="tag text-gray-600 border-gray-300">Flutter</span>
+                    <span class="tag text-gray-600 border-gray-300">Laravel</span>
+                    <span class="tag text-gray-600 border-gray-300">PHP</span>
+                    <span class="tag text-gray-600 border-gray-300">Tailwind</span>
+                    <span class="tag text-gray-600 border-gray-300">MySQL</span>
+                </div>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-briefcase-fill text-gray-700 text-sm"></i></div>
+                    <h3 class="font-semibold text-sm">Tools &amp; Business</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="tag text-gray-600 border-gray-300">CRM</span>
+                    <span class="tag text-gray-600 border-gray-300">Kanban</span>
+                    <span class="tag text-gray-600 border-gray-300">KPI Design</span>
+                    <span class="tag text-gray-600 border-gray-300">Brand Strategy</span>
+                    <span class="tag text-gray-600 border-gray-300">Digital Marketing</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Mobile Experience ── -->
+    <div class="px-4 mb-6 sa" id="experience-mobile">
+        <p class="section-label mb-4">Pengalaman</p>
+        <div class="space-y-3">
+            <div class="n-card p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-sm">BMW e.V. (Bildung Mit Wirkung)</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Fullstack Developer · Jerman</p>
+                    </div>
+                    <span class="tag text-gray-500 border-gray-200 shrink-0 ml-3">Okt '25–Jan '26</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">Membangun website profil dan sistem fundraising internasional terintegrasi pembayaran.</p>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-sm">PT Fajar Wisata Langgeng</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Fullstack Developer · Indonesia</p>
+                    </div>
+                    <span class="tag text-gray-500 border-gray-200 shrink-0 ml-3">Nov '25–Skrg</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">Website company profile &amp; sistem internal pemesanan tiket + bank data operasional.</p>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-sm">UPI YPTK Padang</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Frontend Developer · Indonesia</p>
+                    </div>
+                    <span class="tag text-gray-500 border-gray-200 shrink-0 ml-3">Jul–Okt '25</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">Merancang antarmuka aplikasi LPM &amp; e-Office. Integrasi API dashboard admin.</p>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-sm">PT Minang Teknologi Indonesia</p>
+                        <p class="text-xs text-gray-500 mt-0.5">VP of Product · Indonesia</p>
+                    </div>
+                    <span class="tag text-gray-500 border-gray-200 shrink-0 ml-3">Jun '23–Des '24</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">Lead riset UI/UX, mentor bootcamp product design, strategi produk &amp; konten digital.</p>
+            </div>
+            <div class="n-card p-5">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-sm">Bolu MalinKundang</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Brand Strategist &amp; Tech Dev · Indonesia</p>
+                    </div>
+                    <span class="tag text-gray-500 border-gray-200 shrink-0 ml-3">Okt '23–Apr '25</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">Sistem digital internal (POS, absensi), rebranding, kemitraan strategis Transmart.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Mobile Education ── -->
+    <div class="px-4 mb-6 sa">
+        <p class="section-label mb-4">Pendidikan &amp; Sertifikasi</p>
+        <div class="n-card p-5 mb-3">
+            <div class="flex items-center gap-3 mb-1">
+                <i class="bi bi-mortarboard-fill text-gray-600"></i>
+                <p class="font-semibold text-sm">S.Kom – Teknik Informatika</p>
+            </div>
+            <p class="text-xs text-gray-500 ml-7">Universitas Putra Indonesia YPTK · 2016–2022</p>
+        </div>
+        <div class="n-card p-5">
+            <div class="space-y-3">
+                <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><p class="text-xs text-gray-700"><span class="font-semibold">UI/UX Design</span> – Talent Hub, Kemennaker RI (2021)</p></div>
+                <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><p class="text-xs text-gray-700"><span class="font-semibold">Programming with Dart</span> – Dicoding (2023)</p></div>
+                <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><p class="text-xs text-gray-700"><span class="font-semibold">Speaker: A.I.</span> – Universitas Andalas (2023)</p></div>
+                <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><p class="text-xs text-gray-700"><span class="font-semibold">Speaker: Flutter</span> – Universitas Andalas (2024)</p></div>
+                <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><p class="text-xs text-gray-700"><span class="font-semibold">Speaker: Entrepreneurship</span> – Politeknik Aisyiyah (2025)</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Mobile Contact ── -->
+    <div class="px-4 mb-6 sa">
+        <div class="n-card p-6 text-center">
+            <p class="section-label mb-3">Kontak</p>
+            <h3 class="text-xl font-bold mb-4">Siap berkolaborasi?</h3>
+            <a href="mailto:ahmadsyaulinadima@gmail.com" class="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-gray-700 transition-colors w-full justify-center mb-3">
+                Kirim Email <i class="bi bi-envelope text-xs"></i>
+            </a>
+            <div class="flex justify-center gap-4 mt-3">
+                <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-linkedin text-xl"></i></a>
+                <a href="https://wa.me/6282282425862" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-whatsapp text-xl"></i></a>
+                <a href="https://nadima-ahmad.my.id/" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-globe text-xl"></i></a>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /mobile -->
+
+<!-- ═══════════════════════════════════════════
+     DESKTOP LAYOUT
+═══════════════════════════════════════════ -->
+<div class="hidden md:block">
+
+    <!-- ── Desktop Nav ── -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <span class="font-bold text-sm tracking-tight">Nadima Ahmad</span>
+            <div class="flex items-center gap-8">
+                <a href="#about" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">About</a>
+                <a href="#work" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">Work</a>
+                <a href="#experience" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">Experience</a>
+                <a href="#skills" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">Skills</a>
+                <a href="mailto:ahmadsyaulinadima@gmail.com" class="text-sm font-semibold bg-gray-900 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition-colors">Hire Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── Desktop Hero ── -->
+    <section id="about" class="max-w-6xl mx-auto px-8 py-24 sa">
+        <div class="grid grid-cols-2 gap-20 items-center">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <img src="images/fotosaya.png" class="w-12 h-12 rounded-full object-cover border border-gray-200">
+                    <div>
+                        <p class="font-semibold text-sm">A. Syauli Nadima, S.Kom</p>
+                        <p class="text-xs text-gray-500">Padang, Indonesia · <span class="text-green-600 font-medium">Available</span></p>
+                    </div>
+                </div>
+                <h1 class="text-6xl lg:text-7xl font-black tracking-tighter text-gray-900 leading-[1] mb-6">
+                    Software<br>Engineer &amp;<br>UI/UX<br>Designer.
+                </h1>
+                <p class="text-lg text-gray-500 leading-relaxed mb-8 max-w-md">
+                    8+ tahun di persimpangan desain dan teknologi — membangun produk digital yang berdampak nyata.
+                </p>
+                <div class="flex gap-3">
+                    <a href="mailto:ahmadsyaulinadima@gmail.com" class="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-700 transition-colors">
+                        Mulai Percakapan <i class="bi bi-arrow-right text-sm"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="inline-flex items-center gap-2 border border-gray-300 text-gray-700 font-semibold px-6 py-3 rounded-full hover:border-gray-500 transition-colors">
+                        LinkedIn <i class="bi bi-box-arrow-up-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="n-card p-6 flex flex-col gap-1">
+                    <p class="text-4xl font-black">8+</p>
+                    <p class="text-sm text-gray-500 font-medium">Tahun Pengalaman</p>
+                </div>
+                <div class="n-card p-6 flex flex-col gap-1">
+                    <p class="text-4xl font-black">3+</p>
+                    <p class="text-sm text-gray-500 font-medium">Tahun UI/UX</p>
+                </div>
+                <div class="n-card p-6 flex flex-col gap-1">
+                    <p class="text-4xl font-black">5+</p>
+                    <p class="text-sm text-gray-500 font-medium">Tahun Development</p>
+                </div>
+                <div class="n-card p-6 flex flex-col gap-1">
+                    <p class="text-4xl font-black">820+</p>
+                    <p class="text-sm text-gray-500 font-medium">Anggota Komunitas</p>
+                </div>
+                <div class="n-card p-6 col-span-2 flex items-center justify-between">
+                    <div>
+                        <p class="font-semibold text-sm">Tertarik kolaborasi?</p>
+                        <p class="text-xs text-gray-500 mt-0.5">ahmadsyaulinadima@gmail.com</p>
+                    </div>
+                    <a href="mailto:ahmadsyaulinadima@gmail.com" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-gray-700 transition-colors flex-shrink-0">
+                        <i class="bi bi-arrow-up-right text-white text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PORTFOLIO CATEGORIES (PRESERVED — DO NOT CHANGE) ── -->
+    <section id="work" class="w-full border-y border-gray-200 bg-[#f9f9f7]">
+        <div class="max-w-6xl mx-auto px-8 py-20">
+            <div class="flex flex-col md:flex-row gap-16 items-start">
+                <div class="md:w-2/5 flex-shrink-0">
+                    <p class="section-label mb-4">PORTOFOLIO SAYA</p>
+                    <h2 class="text-5xl lg:text-6xl font-black tracking-tighter text-black leading-[0.95] uppercase">
+                        Karya yang <br>saya <span class="inline-block bg-[#faffb0] px-3 py-1" style="border:1.5px solid #000">buat.</span>
+                    </h2>
+                    <p class="text-base text-gray-500 font-medium mt-6 leading-relaxed max-w-xs">
+                        Dari desain UI/UX hingga pengembangan produk — berikut kategori kerja yang telah saya jalani.
+                    </p>
+                </div>
+                <div class="flex-1 w-full">
+                    <a href="#" target="_blank" rel="noopener" class="acc-row group">
+                        <div class="flex items-center gap-8"><span class="text-xs font-black text-gray-400 w-6 shrink-0">01</span><span class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Web &amp; App</span></div>
+                        <div class="acc-arrow"><i class="bi bi-arrow-right"></i></div>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener" class="acc-row group">
+                        <div class="flex items-center gap-8"><span class="text-xs font-black text-gray-400 w-6 shrink-0">02</span><span class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">UI/UX Design</span></div>
+                        <div class="acc-arrow"><i class="bi bi-arrow-right"></i></div>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener" class="acc-row group">
+                        <div class="flex items-center gap-8"><span class="text-xs font-black text-gray-400 w-6 shrink-0">03</span><span class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Graphic Design</span></div>
+                        <div class="acc-arrow"><i class="bi bi-arrow-right"></i></div>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener" class="acc-row group">
+                        <div class="flex items-center gap-8"><span class="text-xs font-black text-gray-400 w-6 shrink-0">04</span><span class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Video Editing</span></div>
+                        <div class="acc-arrow"><i class="bi bi-arrow-right"></i></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ── END PRESERVED SECTION ── -->
+
+    <!-- ── Gallery Marquee ── -->
+    <section class="py-12 overflow-hidden border-b border-gray-100">
+        <div class="relative flex overflow-hidden">
+            <div class="marquee-inner flex gap-4 pr-4">
+                <img src="images/nadima01.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima02.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima03.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima04.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima05.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima06.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima07.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima08.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima09.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima10.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima01.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima02.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima03.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima04.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima05.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima06.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima07.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima08.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima09.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+                <img src="images/nadima10.png" class="h-52 w-auto rounded-xl object-cover flex-shrink-0 border border-gray-100">
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Stats Banner ── -->
+    <section class="border-b border-gray-200 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-8 py-12 sa">
+            <div class="grid grid-cols-4 gap-8">
+                <div class="text-center">
+                    <p class="text-5xl font-black text-gray-900">3+</p>
+                    <p class="text-sm text-gray-500 mt-2">Tahun Desain UI/UX</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-5xl font-black text-gray-900">5+</p>
+                    <p class="text-sm text-gray-500 mt-2">Tahun Development</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-5xl font-black text-gray-900">820+</p>
+                    <p class="text-sm text-gray-500 mt-2">Anggota Komunitas</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-5xl font-black text-gray-900">8+</p>
+                    <p class="text-sm text-gray-500 mt-2">Tahun Pengalaman</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Skills & Experience Grid ── -->
+    <section id="skills" class="max-w-6xl mx-auto px-8 py-20 sa">
+        <div class="grid grid-cols-3 gap-8">
+            <!-- Skills column -->
+            <div class="col-span-1">
+                <p class="section-label mb-6">Skills</p>
+                <div class="space-y-4">
+                    <div class="n-card p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-palette-fill text-gray-600 text-sm"></i></div>
+                            <h3 class="font-semibold text-sm">Design &amp; UX</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag text-gray-600 border-gray-300">UI/UX Design</span>
+                            <span class="tag text-gray-600 border-gray-300">Design Thinking</span>
+                            <span class="tag text-gray-600 border-gray-300">Journey Mapping</span>
+                            <span class="tag text-gray-600 border-gray-300">UX Research</span>
+                            <span class="tag text-gray-600 border-gray-300">Figma</span>
+                            <span class="tag text-gray-600 border-gray-300">Adobe XD</span>
+                            <span class="tag text-gray-600 border-gray-300">Blender 3D</span>
+                        </div>
+                    </div>
+                    <div class="n-card p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-code-slash text-gray-600 text-sm"></i></div>
+                            <h3 class="font-semibold text-sm">Development</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag text-gray-600 border-gray-300">Vue.js</span>
+                            <span class="tag text-gray-600 border-gray-300">Flutter</span>
+                            <span class="tag text-gray-600 border-gray-300">JavaScript</span>
+                            <span class="tag text-gray-600 border-gray-300">Tailwind</span>
+                            <span class="tag text-gray-600 border-gray-300">Laravel</span>
+                            <span class="tag text-gray-600 border-gray-300">PHP</span>
+                            <span class="tag text-gray-600 border-gray-300">MySQL</span>
+                        </div>
+                    </div>
+                    <div class="n-card p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center"><i class="bi bi-briefcase-fill text-gray-600 text-sm"></i></div>
+                            <h3 class="font-semibold text-sm">Tools &amp; Business</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="tag text-gray-600 border-gray-300">CRM</span>
+                            <span class="tag text-gray-600 border-gray-300">Kanban</span>
+                            <span class="tag text-gray-600 border-gray-300">KPI Design</span>
+                            <span class="tag text-gray-600 border-gray-300">Brand Strategy</span>
+                            <span class="tag text-gray-600 border-gray-300">Digital Marketing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience column -->
+            <div class="col-span-2" id="experience">
+                <p class="section-label mb-6">Pengalaman Profesional</p>
+                <div class="space-y-4">
+                    <div class="n-card p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <p class="font-semibold">BMW e.V. (Bildung Mit Wirkung)</p>
+                                <p class="text-sm text-gray-500 mt-0.5">Fullstack Developer · Jerman</p>
+                            </div>
+                            <span class="tag text-gray-500 border-gray-200 shrink-0 ml-4">Okt '25 – Jan '26</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Membangun website profil dan sistem fundraising internasional terintegrasi pembayaran.</li>
+                        </ul>
+                    </div>
+                    <div class="n-card p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <p class="font-semibold">PT Fajar Wisata Langgeng</p>
+                                <p class="text-sm text-gray-500 mt-0.5">Fullstack Developer · Indonesia</p>
+                            </div>
+                            <span class="tag text-gray-500 border-gray-200 shrink-0 ml-4">Nov '25 – Skrg</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Mengembangkan website company profile perusahaan.</li>
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Membangun sistem internal pemesanan tiket &amp; bank data operasional.</li>
+                        </ul>
+                    </div>
+                    <div class="n-card p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <p class="font-semibold">UPI YPTK Padang</p>
+                                <p class="text-sm text-gray-500 mt-0.5">Frontend Developer · Indonesia</p>
+                            </div>
+                            <span class="tag text-gray-500 border-gray-200 shrink-0 ml-4">Jul – Okt '25</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Merancang antarmuka aplikasi LPM &amp; e-Office kampus.</li>
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Berkolaborasi dengan backend untuk integrasi API &amp; dashboard.</li>
+                        </ul>
+                    </div>
+                    <div class="n-card p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <p class="font-semibold">PT Minang Teknologi Indonesia</p>
+                                <p class="text-sm text-gray-500 mt-0.5">Vice President of Product · Indonesia</p>
+                            </div>
+                            <span class="tag text-gray-500 border-gray-200 shrink-0 ml-4">Jun '23 – Des '24</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Lead riset UI/UX untuk super app 'Rumah Gadang UIN IB'.</li>
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Mentor kelas product design bootcamp UI/UX.</li>
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Mengembangkan strategi produk digital &amp; konten media sosial.</li>
+                        </ul>
+                    </div>
+                    <div class="n-card p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <p class="font-semibold">Bolu MalinKundang</p>
+                                <p class="text-sm text-gray-500 mt-0.5">Brand Strategist &amp; Tech Development · Indonesia</p>
+                            </div>
+                            <span class="tag text-gray-500 border-gray-200 shrink-0 ml-4">Okt '23 – Apr '25</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Mendesain sistem digital internal: POS, absensi geo-tagged, inventaris.</li>
+                            <li class="text-sm text-gray-600 flex items-start gap-2"><i class="bi bi-dot text-gray-400 mt-0.5 flex-shrink-0"></i>Memimpin rebranding visual &amp; kemitraan strategis Transmart &amp; Suzuya.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Other experience -->
+                <div class="mt-8">
+                    <p class="section-label mb-4">Other Experience</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="n-card p-4">
+                            <p class="font-semibold text-sm">PT Koding Pro Indonesia</p>
+                            <p class="text-xs text-gray-500 mt-0.5 mb-2">COO · Okt '22 – Mei '23</p>
+                            <p class="text-xs text-gray-600">Menyelesaikan 21 kelas pemrograman dan membangun frontend modular.</p>
+                        </div>
+                        <div class="n-card p-4">
+                            <p class="font-semibold text-sm">Nadima System</p>
+                            <p class="text-xs text-gray-500 mt-0.5 mb-2">Freelance · Jan '20 – Skrg</p>
+                            <p class="text-xs text-gray-600">Mengelola proyek end-to-end (riset, UI/UX, dev) untuk beragam klien.</p>
+                        </div>
+                        <div class="n-card p-4">
+                            <p class="font-semibold text-sm">CV Sobat Karya Persada</p>
+                            <p class="text-xs text-gray-500 mt-0.5 mb-2">Digital Marketing Director · Okt '21 – Okt '22</p>
+                            <p class="text-xs text-gray-600">Membuat desain sosmed, foto produk, dan video promosi.</p>
+                        </div>
+                        <div class="n-card p-4">
+                            <p class="font-semibold text-sm">Furgetech Startup</p>
+                            <p class="text-xs text-gray-500 mt-0.5 mb-2">Junior UI/UX Designer · Des '17 – Agu '18</p>
+                            <p class="text-xs text-gray-600">Mendesain MVP aplikasi e-Qurban dengan Adobe XD.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Education & Community ── -->
+    <section class="border-t border-gray-200 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-8 py-20 sa">
+            <div class="grid grid-cols-3 gap-8">
+                <!-- Education -->
+                <div>
+                    <p class="section-label mb-6">Pendidikan</p>
+                    <div class="n-card p-6 mb-4">
+                        <div class="flex items-center gap-3 mb-1">
+                            <i class="bi bi-mortarboard-fill text-gray-600"></i>
+                            <p class="font-semibold">Sarjana Komputer (S.Kom)</p>
+                        </div>
+                        <p class="text-sm text-gray-500 ml-6">Teknik Informatika</p>
+                        <p class="text-xs text-gray-400 ml-6 mt-1">UPI YPTK Padang · 2016–2022</p>
+                    </div>
+                    <div class="n-card p-6">
+                        <div class="flex items-start gap-3">
+                            <i class="bi bi-trophy-fill text-amber-500 mt-0.5 flex-shrink-0"></i>
+                            <div>
+                                <p class="font-semibold text-sm">Runner-Up – Hackathon</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Politeknik Negeri Padang · 2019</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div>
+                    <p class="section-label mb-6">Sertifikasi</p>
+                    <div class="n-card p-6 space-y-4">
+                        <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><div><p class="text-sm font-semibold">UI/UX Design</p><p class="text-xs text-gray-500">Talent Hub, Kemennaker RI · 2021</p></div></div>
+                        <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><div><p class="text-sm font-semibold">Programming with Dart</p><p class="text-xs text-gray-500">Dicoding Indonesia · 2023</p></div></div>
+                        <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><div><p class="text-sm font-semibold">Speaker: Artificial Intelligence</p><p class="text-xs text-gray-500">Universitas Andalas · 2023</p></div></div>
+                        <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><div><p class="text-sm font-semibold">Speaker: Flutter Front-End</p><p class="text-xs text-gray-500">Universitas Andalas · 2024</p></div></div>
+                        <div class="flex items-start gap-3"><i class="bi bi-patch-check-fill text-gray-600 mt-0.5 flex-shrink-0"></i><div><p class="text-sm font-semibold">Speaker: Entrepreneurship</p><p class="text-xs text-gray-500">Politeknik Aisyiyah Sumbar · 2025</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Community -->
+                <div>
+                    <p class="section-label mb-6">Komunitas</p>
+                    <div class="n-card p-6 space-y-5">
+                        <div>
+                            <p class="font-semibold text-sm">Founder</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Forum Studi Informatika UPI YPTK · 2019</p>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">Mendirikan komunitas 800+ anggota, kelas coding &amp; workshop rutin.</p>
+                        </div>
+                        <hr class="border-gray-100">
+                        <div>
+                            <p class="font-semibold text-sm">Humas Wilayah Sumbar</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Permikomnas Wil. II · 2019–2021</p>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">Koordinasi hubungan masyarakat tingkat provinsi.</p>
+                        </div>
+                        <hr class="border-gray-100">
+                        <div>
+                            <p class="font-semibold text-sm">Divisi Litbang</p>
+                            <p class="text-xs text-gray-500 mt-0.5">HIMA TI UPI YPTK Padang</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="max-w-6xl mx-auto px-8 py-24 sa">
+        <div class="n-card p-16 text-center">
+            <p class="section-label mb-4">Kontak</p>
+            <h2 class="text-4xl lg:text-5xl font-black tracking-tighter text-gray-900 mb-4">Siap untuk berkolaborasi?</h2>
+            <p class="text-lg text-gray-500 mb-10 max-w-md mx-auto">Mari bangun sesuatu yang luar biasa bersama.</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="mailto:ahmadsyaulinadima@gmail.com" class="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-8 py-3.5 rounded-full hover:bg-gray-700 transition-colors">
+                    Mulai Percakapan <i class="bi bi-arrow-right text-sm"></i>
+                </a>
+                <a href="https://wa.me/6282282425862" target="_blank" class="inline-flex items-center gap-2 border border-gray-300 text-gray-700 font-semibold px-8 py-3.5 rounded-full hover:border-gray-500 transition-colors">
+                    WhatsApp <i class="bi bi-whatsapp text-sm"></i>
+                </a>
+            </div>
+            <div class="flex justify-center gap-6 mt-10">
+                <a href="https://linkedin.com/in/nadima-ahmad" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-linkedin text-2xl"></i></a>
+                <a href="https://nadima-ahmad.my.id/" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-globe text-2xl"></i></a>
+                <a href="mailto:ahmadsyaulinadima@gmail.com" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="bi bi-envelope-fill text-2xl"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="border-t border-gray-200 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-8 py-8 flex items-center justify-between">
+            <p class="text-sm text-gray-500">© 2025 A. Syauli Nadima, S.Kom · Padang, Indonesia</p>
+            <p class="text-sm text-gray-400">Software Engineer · UI/UX Designer</p>
+        </div>
+    </footer>
+
+</div><!-- /desktop -->
+
+<!-- ── Mobile Bottom Nav ── -->
+<div class="bottom-nav md:hidden">
+    <div class="flex justify-around items-center py-3">
+        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-gray-900 transition-colors gap-1">
+            <i class="bi bi-house-door-fill text-xl"></i>
+            <span class="text-[10px] font-medium">Home</span>
+        </a>
+        <a href="#skills-mobile" class="flex flex-col items-center text-gray-500 hover:text-gray-900 transition-colors gap-1">
+            <i class="bi bi-tools text-xl"></i>
+            <span class="text-[10px] font-medium">Skills</span>
+        </a>
+        <a href="#experience-mobile" class="flex flex-col items-center text-gray-500 hover:text-gray-900 transition-colors gap-1">
+            <i class="bi bi-briefcase-fill text-xl"></i>
+            <span class="text-[10px] font-medium">Exp</span>
+        </a>
+        <a href="mailto:ahmadsyaulinadima@gmail.com" class="flex flex-col items-center text-gray-500 hover:text-gray-900 transition-colors gap-1">
+            <i class="bi bi-chat-dots-fill text-xl"></i>
+            <span class="text-[10px] font-medium">Contact</span>
+        </a>
+    </div>
+</div>
+
+</div><!-- /app -->
+
+<script src="app.js"></script>
+<script>
+    // Scroll animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
 </body>
-
 </html>
